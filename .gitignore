@@ -36,3 +36,13 @@ service-account.json
 # OS
 .DS_Store
 Thumbs.db
+
+# Local AI models
+local_models/
+models/
+
+# Dataset
+*.csv
+
+# Vector database
+chroma_db/
