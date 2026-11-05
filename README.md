@@ -1,37 +1,44 @@
 # 🏗️ Scaffolding RAG AI Assistant
 
-**مساعد ذكي متخصص في مجال السقالات (Scaffolding)، يعتمد على تقنيات Retrieval-Augmented Generation (RAG) للإجابة عن الأسئلة بالاعتماد على مستندات وبيانات متخصصة.**
+**مساعد ذكي متخصص في مجال السقالات (Scaffolding)، يعتمد على تقنية Retrieval-Augmented Generation (RAG) للإجابة عن الأسئلة بالاعتماد على مستندات وبيانات متخصصة.**
 
-يهدف المشروع إلى توفير تجربة تفاعلية تُمكّن المستخدم من طرح الأسئلة باللغة العربية أو الإنجليزية، واسترجاع المعلومات ذات الصلة من قاعدة المعرفة، ثم توليد إجابات باستخدام نموذج Google Gemini مع عرض المصادر المسترجعة.
+يتيح المشروع للمستخدم طرح الأسئلة باللغة العربية أو الإنجليزية، واسترجاع المعلومات ذات الصلة من قاعدة المعرفة باستخدام البحث الدلالي، ثم توليد إجابات مدعومة بالمصادر باستخدام Google Gemini.
 
 ---
 
-## ✨ المميزات الرئيسية
+## ✨ Features
 
-- **RAG Architecture:** ربط نموذج الذكاء الاصطناعي بقاعدة معرفة متخصصة.
+- **RAG Architecture:** ربط نماذج الذكاء الاصطناعي بقاعدة معرفة متخصصة.
 - **Semantic Search:** البحث الدلالي باستخدام Embeddings.
 - **Vector Database:** تخزين واسترجاع البيانات باستخدام ChromaDB.
-- **AI-Powered Answers:** توليد إجابات باستخدام Google Gemini.
-- **Source Retrieval:** عرض المستندات والمصادر المستخدمة في الإجابة.
+- **AI-Powered Answers:** توليد الإجابات باستخدام Google Gemini.
+- **Source Retrieval:** عرض المستندات والمصادر المسترجعة مع الإجابات.
 - **Bilingual Support:** دعم الأسئلة باللغة العربية والإنجليزية.
 - **REST API:** توفير API باستخدام FastAPI.
 - **Interactive Chat Interface:** واجهة محادثة باستخدام Streamlit.
-- **Modular Architecture:** فصل واجهات API عن منطق معالجة واسترجاع البيانات.
+- **Modular Architecture:** فصل API عن منطق معالجة واسترجاع البيانات.
+- **Configurable Settings:** التحكم في إعدادات المشروع من خلال Environment Variables.
 
-## 🛠️ التقنيات المستخدمة
+---
 
-| التقنية | الاستخدام |
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
 |---|---|
-| Python | لغة البرمجة الأساسية |
-| FastAPI | تطوير REST API |
-| Streamlit | واجهة المحادثة |
-| ChromaDB | قاعدة بيانات المتجهات |
-| Sentence Transformers | إنشاء Embeddings |
-| BAAI/bge-m3 | نموذج تحويل النصوص إلى متجهات |
-| Google Gemini | توليد الإجابات |
-| Pydantic | التحقق من البيانات |
+| Python | Core Programming Language |
+| FastAPI | REST API Development |
+| Streamlit | Chat Interface |
+| ChromaDB | Vector Database |
+| Sentence Transformers | Embedding Generation |
+| BAAI/bge-m3 | Embedding Model |
+| Google Gemini | AI Response Generation |
+| Pydantic | Data Validation |
+| Pandas | Dataset Processing |
+| Uvicorn | ASGI Server |
 
-## 🏛️ هيكل المشروع
+---
+
+## 🏛️ Project Structure
 
 ```text
 rag/
@@ -55,17 +62,23 @@ rag/
 ├── app.py
 ├── ingest.py
 ├── ui.py
+├── requirements.txt
+├── .env
 ├── .gitignore
 └── README.md
 ```
 
-## ⚙️ متطلبات التشغيل
+---
 
-- Python 3.10 أو أحدث.
+## ⚙️ Requirements
+
+- Python 3.10 or newer.
 - Google Gemini API Key.
-- اتصال بالإنترنت عند استخدام Gemini.
-- نموذج Embedding: `BAAI/bge-m3`.
-- ملف البيانات CSV المستخدم في عملية تجهيز قاعدة المعرفة.
+- Internet connection for Gemini API.
+- CSV dataset used to build the knowledge base.
+- Sufficient disk space for the embedding model and ChromaDB.
+
+---
 
 ## 🚀 Installation & Setup
 
@@ -85,62 +98,121 @@ cd rag
 python -m venv .venv
 ```
 
-تفعيل البيئة على Windows:
+Activate on Windows:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
 
+Activate on Linux / macOS:
+
+```bash
+source .venv/bin/activate
+```
+
 ### 3. Install Dependencies
 
 ```bash
-pip install fastapi uvicorn chromadb sentence-transformers google-genai python-dotenv streamlit requests pandas
+pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
+---
 
-أنشئ ملف `.env` داخل مجلد المشروع:
+## 🔐 Environment Variables Configuration
+
+أنشئ ملفًا باسم `.env` في المجلد الرئيسي للمشروع، وأضف الإعدادات التالية:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
+
+GEMINI_MODEL=gemini-flash-latest
+
+EMBED_MODEL_NAME=BAAI/bge-m3
+
+EMBED_LOCAL_FILES_ONLY=False
+
+# ChromaDB Configuration
+CHROMA_PATH=./chroma_db
+COLLECTION_NAME=scaffolding_data
+
+# Data Ingestion Configuration
+CSV_FILE=scaffolding_chunks (1).csv
+
+# Retrieval Configuration
+TOP_K_RESULTS=3
 ```
 
-استبدل القيمة بمفتاح Gemini الخاص بك.
+### Environment Variables Explanation
 
-**تنبيه:** لا ترفع ملف `.env` إلى GitHub أو تشارك مفتاح API مع أي شخص.
+| Variable | Description |
+|---|---|
+| `GEMINI_API_KEY` | مفتاح الوصول إلى Google Gemini API |
+| `GEMINI_MODEL` | اسم نموذج Gemini المستخدم لتوليد الإجابات |
+| `EMBED_MODEL_NAME` | اسم نموذج إنشاء Embeddings |
+| `EMBED_LOCAL_FILES_ONLY` | تحديد تحميل النموذج محليًا فقط أو السماح بالتنزيل |
+| `CHROMA_PATH` | مسار تخزين قاعدة بيانات ChromaDB |
+| `COLLECTION_NAME` | اسم Collection داخل ChromaDB |
+| `CSV_FILE` | اسم ملف CSV المستخدم في تجهيز البيانات |
+| `TOP_K_RESULTS` | عدد المستندات المسترجعة لكل سؤال |
 
-### 5. Prepare Knowledge Base
+**Important Notes:**
 
-ضع ملف البيانات CSV في المسار المتوقع داخل إعدادات `ingest.py`، ثم نفّذ:
+- استبدل `your_gemini_api_key` بمفتاح Gemini API الخاص بك.
+- تأكد من أن اسم ملف CSV يطابق الملف الموجود فعليًا.
+- عند ضبط `EMBED_LOCAL_FILES_ONLY=False` قد يحتاج النظام إلى الإنترنت لتنزيل نموذج Embedding.
+- لا ترفع ملف `.env` إلى GitHub أو تشارك مفاتيح API.
+- استخدم ملف `.env.example` لمشاركة إعدادات المشروع دون بيانات سرية.
+
+---
+
+## 📚 Knowledge Base Preparation
+
+قبل تشغيل النظام، يجب تجهيز قاعدة المعرفة.
+
+ضع ملف CSV في المسار المحدد في `CSV_FILE`، ثم شغّل:
 
 ```bash
 python ingest.py
 ```
 
-تقوم هذه الخطوة بمعالجة البيانات وإنشاء Embeddings وتخزينها في ChromaDB.
+تقوم عملية Ingestion بالخطوات التالية:
 
-### 6. Run FastAPI Server
+1. قراءة البيانات من ملف CSV.
+2. التحقق من البيانات وتجهيز النصوص.
+3. إنشاء Embeddings باستخدام BAAI/bge-m3.
+4. تخزين النصوص والمتجهات في ChromaDB.
+5. تجهيز قاعدة المعرفة للاسترجاع.
+
+---
+
+## ▶️ Running the Application
+
+### 1. Start FastAPI Server
 
 ```bash
 python -m uvicorn app:app --reload
 ```
 
-بعد التشغيل:
+بعد تشغيل السيرفر:
 
-- API: http://127.0.0.1:8000
-- Swagger Documentation: http://127.0.0.1:8000/docs
+- **API:** http://127.0.0.1:8000
+- **Swagger Documentation:** http://127.0.0.1:8000/docs
 
-### 7. Run Streamlit Interface
+### 2. Start Streamlit Interface
 
-افتح Terminal جديدًا، وفعّل البيئة الافتراضية، ثم:
+افتح Terminal جديدًا، وفعّل البيئة الافتراضية، ثم شغّل:
 
 ```bash
 streamlit run ui.py
 ```
 
-## 🔌 API Usage
+ستظهر واجهة المحادثة في المتصفح.
 
-### Endpoint
+---
+
+## 🔌 API Documentation
+
+### Ask Endpoint
 
 ```http
 POST /ask
@@ -168,23 +240,31 @@ POST /ask
 }
 ```
 
+---
+
 ## 🧠 How RAG Works
 
-يعتمد المشروع على المراحل التالية:
+يعتمد النظام على المراحل التالية:
 
 1. **User Query:** يستقبل النظام سؤال المستخدم.
-2. **Embedding Generation:** يحوّل السؤال إلى Vector باستخدام BGE-M3.
-3. **Semantic Retrieval:** يبحث في ChromaDB عن أكثر المستندات ارتباطًا بالسؤال.
+2. **Embedding Generation:** يحوّل السؤال إلى Vector باستخدام BAAI/bge-m3.
+3. **Semantic Retrieval:** يبحث في ChromaDB عن المستندات الأكثر ارتباطًا بالسؤال.
 4. **Context Construction:** يجمع المعلومات المسترجعة في سياق واحد.
-5. **LLM Generation:** يرسل السياق والسؤال إلى Gemini لتوليد الإجابة.
-6. **Response:** يعرض الإجابة والمصادر من خلال API وواجهة المحادثة.
+5. **LLM Generation:** يرسل السؤال والسياق إلى Google Gemini.
+6. **Response Generation:** ينشئ Gemini إجابة اعتمادًا على السياق المتاح.
+7. **Source Display:** يعرض النظام الإجابة والمصادر المسترجعة للمستخدم.
 
-## 🔒 Security Notes
+---
 
-- تخزين مفاتيح API داخل Environment Variables.
-- استثناء الملفات الحساسة من Git.
+## 🔒 Security
+
+- تخزين مفاتيح API في Environment Variables.
+- استثناء `.env` والملفات الحساسة من Git.
 - عدم مشاركة بيانات الاعتماد أو مفاتيح الخدمات.
-- التحقق من مدخلات API قبل معالجتها.
+- التحقق من مدخلات API.
+- عدم نشر قواعد البيانات أو الملفات التي تحتوي على بيانات خاصة.
+
+---
 
 ## 👨‍💻 Developer
 
@@ -194,6 +274,8 @@ Full-Stack Developer & AI Engineer
 
 GitHub: [@belalelshobokshy-bot](https://github.com/belalelshobokshy-bot)
 
+Project Repository: [Scaffolding RAG AI Assistant](https://github.com/belalelshobokshy-bot/rag)
+
 ---
 
-*Built with Python, FastAPI, ChromaDB, and Google Gemini.*
+*Built with Python, FastAPI, ChromaDB, Sentence Transformers, and Google Gemini.*
